@@ -42,8 +42,6 @@ export default {
     align-items: center;
 
     &__block-text {
-      font-family: 'PTSans-Regular', Helvetica, sans-serif;
-      font-size: 14px;
       color: #fff;
     }
 
