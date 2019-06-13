@@ -13,6 +13,7 @@
         id="answer"
         cols="30"
         rows="10"
+        v-model="textareaText"
       ></textarea>
     </div>
     <div class="popup-third-step__interaction">
@@ -23,15 +24,31 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'ThirdStepPopup',
 
+  computed: {
+    textareaText: {
+      get() {
+        return this.$store.state.popup.rating.client.message;
+      },
+      set(value) {
+        this.setTextareaText(value);
+      },
+    },
+  },
+
   methods: {
+    ...mapMutations('popup', {
+      setTextareaText: 'SET_TEXTAREA_TEXT',
+    }),
     nextStep() {
       this.$emit('next:step', 4);
     },
     closePopup() {
-      this.$emit('close:popup');
+      this.$emit('close:popup').$emit('send:result');
     },
   },
 };

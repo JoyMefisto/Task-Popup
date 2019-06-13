@@ -1,10 +1,7 @@
 <template>
   <div class="popup-first-step">
     <h2 class="popup-first-step__title">Нам важно Ваше мнение!</h2>
-    <p class="popup-first-step__question">
-      Оцените пожалуйста Вашу готовность рекомендовать «Газпромнефть-Корпоративные
-      продажи» своим коллегам / партнерам?
-    </p>
+    <p class="popup-first-step__question">{{ label }}</p>
     <p class="popup-first-step__description">
       Для оценки используйте 10-балльную шкалу, где 10 – точно готовы рекомендовать,
       1 – точно не готовы рекомендовать.
@@ -16,12 +13,12 @@
           <input
             type="radio"
             name="rating"
-            :key="key"
+            :key="`input_${key}`"
             :id="`rating${key}`"
             :checked="item === 1"
             @change="changeRating(item, key)"
           >
-          <label :for="`rating${key}`" :key="key"><span>{{ count - key }}</span></label>
+          <label :for="`rating${key}`" :key="`label_${key}`"><span>{{ count - key }}</span></label>
         </template>
 
       </div>
@@ -34,6 +31,8 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   name: 'FirstStepPopup',
 
@@ -45,12 +44,23 @@ export default {
     };
   },
 
+  computed: {
+    ...mapState('popup', {
+      label: state => state.rating.server.label,
+    }),
+  },
+
   methods: {
+    ...mapMutations('popup', {
+      setRate: 'SET_RATE',
+    }),
     changeRating(item, key) {
       const length = 100 / (this.count - 1);
       const num = this.count - item;
       this.procent = num * length;
       this.point = this.count - key;
+
+      this.setRate(this.point);
     },
     nextStep() {
       this.$emit('next:step', this.count === this.point ? 3 : 2);

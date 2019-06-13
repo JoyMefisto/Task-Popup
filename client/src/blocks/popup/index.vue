@@ -3,9 +3,9 @@
     <div class="popup__shadow"></div>
     <div class="popup__block">
       <first-step v-if="step === 1" @next:step="nextStep" @close:popup="closePopup" />
-      <second-step v-if="step === 2" @next:step="nextStep" @close:popup="closePopup" />
-      <third-step v-if="step === 3" @next:step="nextStep" @close:popup="closePopup" />
-      <four-step v-if="step === 4" @close:popup="closePopup" />
+      <second-step v-if="step === 2" @next:step="nextStep" @close:popup="closePopup" @send:result="sendResult" />
+      <third-step v-if="step === 3" @next:step="nextStep" @close:popup="closePopup" @send:result="sendResult" />
+      <four-step v-if="step === 4" @close:popup="closePopup" @send:result="sendResult" />
     </div>
   </div>
 </template>
@@ -45,6 +45,9 @@ export default {
     },
     closePopup() {
       this.$emit('close:popup');
+    },
+    sendResult() {
+      this.$emit('send:result');
     },
   },
 };

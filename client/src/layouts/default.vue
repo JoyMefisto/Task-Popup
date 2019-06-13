@@ -21,10 +21,10 @@ export default {
   },
 };
 </script>
-
 <style lang="scss">
   main {
     min-height: 100vh;
     padding-bottom: 70px;
   }
+
 </style>

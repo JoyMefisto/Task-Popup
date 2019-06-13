@@ -6,12 +6,18 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'FourStepPopup',
 
   methods: {
+    ...mapMutations('popup', {
+      setFinish: 'SET_FINISH',
+    }),
     closePopup() {
-      this.$emit('close:popup');
+      this.setFinish(true);
+      this.$emit('close:popup').$emit('send:result');
     },
   },
 };

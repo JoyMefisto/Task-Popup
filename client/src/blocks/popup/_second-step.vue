@@ -4,114 +4,122 @@
     <p class="popup-second-step__description">Выберите не более 3-х ключевых причин.</p>
 
     <div class="popup-second-step__box">
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox1">
-        <label for="checkbox1">
+      <div
+        class="popup-second-step__question"
+        v-if="key !== '10'"
+        v-for="(item, key) in reasons"
+        :key="key">
+        <input type="checkbox" :id="key" @change="checkCheckbox">
+        <label :for="key">
           <span class="popup-second-step__checkbox-custom"></span>
-          <span>Задержки документооборота</span>
+          <span>{{item}}</span>
         </label>
-        <input type="text" name="answer1">
+        <input type="text" :id="`answer${key}`" :data-id="key" @input="setValueOfInputs">
       </div>
 
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox2">
-        <label for="checkbox2">
+      <div
+        class="popup-second-step__question"
+        v-if="reasons['10']"
+      >
+        <input type="checkbox" :id="10" @change="checkCheckbox">
+        <label :for="10">
           <span class="popup-second-step__checkbox-custom"></span>
-          <span>Неудобный личный кабинет / не хватает опций</span>
+          <span>{{reasons['10']}}</span>
         </label>
-        <input type="text" name="answer2">
+        <input type="text" id="answer10" :data-id="10" @input="setValueOfInputs">
       </div>
-
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox3">
-        <label for="checkbox3">
-          <span class="popup-second-step__checkbox-custom"></span>
-          <span>Не устраивает тарифная политика</span>
-        </label>
-        <input type="text" name="answer3">
-      </div>
-
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox4">
-        <label for="checkbox4">
-          <span class="popup-second-step__checkbox-custom"></span>
-          <span>Текущие рабочие вопросы решаются медленно</span>
-        </label>
-        <input type="text" name="answer4">
-      </div>
-
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox5">
-        <label for="checkbox5">
-          <span class="popup-second-step__checkbox-custom"></span>
-          <span>Неудобная отчетность / нет нужных отчетов</span>
-        </label>
-        <input type="text" name="answer5">
-      </div>
-
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox6">
-        <label for="checkbox6">
-          <span class="popup-second-step__checkbox-custom"></span>
-          <span>Неудобные / долгие процедуры заключения договора</span>
-        </label>
-        <input type="text" name="answer6">
-      </div>
-
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox7">
-        <label for="checkbox7">
-          <span class="popup-second-step__checkbox-custom"></span>
-          <span>Сбои при работе с личным кабинетом</span>
-        </label>
-        <input type="text" name="answer7">
-      </div>
-
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox8">
-        <label for="checkbox8">
-          <span class="popup-second-step__checkbox-custom"></span>
-          <span>Мало дополнительных сервисов для водителей по топливным картам</span>
-        </label>
-        <input type="text" name="answer8">
-      </div>
-
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox9">
-        <label for="checkbox9">
-          <span class="popup-second-step__checkbox-custom"></span>
-          <span>Не устраивает работа менеджеров</span>
-        </label>
-        <input type="text" name="answer9">
-      </div>
-
-      <div class="popup-second-step__question">
-        <input type="checkbox" id="checkbox10">
-        <label for="checkbox10">
-          <span class="popup-second-step__checkbox-custom"></span>
-          <span>Другое</span>
-        </label>
-        <input type="text" name="answer10">
-      </div>
-
     </div>
+
     <div class="popup-second-step__interaction">
-      <button type="button" class="-button" @click="nextStep">Отправить</button>
+      <button
+        type="button"
+        :class="[
+          '-button',
+          {
+            '-button_disabled': isDisableNext
+          }
+        ]"
+        :disabled="isDisableNext"
+        @click="nextStep"
+      >
+        Отправить
+      </button>
       <button type="button" class="-button__link" @click="closePopup">Закрыть</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   name: 'SecondStepPopup',
 
+  data() {
+    return {
+      isDisableNext: true,
+    };
+  },
+
+  computed: {
+    ...mapState('popup', {
+      reasons: state => state.rating.server.reasons,
+    }),
+  },
+
   methods: {
+    ...mapMutations('popup', {
+      setAnswer: 'SET_ANSWER',
+    }),
     nextStep() {
+      const isCheckedTen = this.$el.querySelector('input[id="10"]').checked;
+
+      if (isCheckedTen) {
+        if (this.$el.querySelector('#answer10').value === '') {
+          alert('Поле "Другое" - обязательно для заполнения!'); // eslint-disable-line no-alert
+
+          return false;
+        }
+      }
+
       this.$emit('next:step', 3);
     },
     closePopup() {
-      this.$emit('close:popup');
+      this.$emit('close:popup').$emit('send:result');
+    },
+    setValueOfInputs(e) {
+      this.setAnswer({ id: e.target.dataset.id, answer: e.target.value });
+    },
+    checkCheckbox(e) {
+      const checked = this.$el.querySelectorAll('input[type*="checkbox"]:checked');
+      const lengthCheckbox = checked.length;
+      const dontChecked = this.$el.querySelectorAll('input[type*="checkbox"]:not(:checked)');
+
+      if (!e.target.checked) { // eslint-disable-line consistent-return
+        this.setAnswer({ id: e.target.id, answer: '' });
+        this.$el.querySelector(`#answer${e.target.id}`).value = '';
+      }
+
+      if (lengthCheckbox === 3) {
+        dontChecked.forEach((el) => {
+          const elem = el;
+
+          elem.disabled = true;
+        });
+      } else {
+        dontChecked.forEach((el) => {
+          const elem = el;
+
+          elem.disabled = false;
+        });
+      }
+
+      if (lengthCheckbox === 1 || lengthCheckbox <= 3) {
+        this.isDisableNext = false;
+        return false;
+      }
+
+      this.isDisableNext = true;
     },
   },
 };
@@ -155,6 +163,10 @@ export default {
 
     & input[type="checkbox"]:checked ~ label > .popup-second-step__checkbox-custom {
       background: url("../../assets/icon/v.png") no-repeat 0 0;
+    }
+
+    & input[type="checkbox"]:disabled ~ label {
+      opacity: .4;
     }
 
     & input[type="text"] {
