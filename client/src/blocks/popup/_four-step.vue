@@ -1,14 +1,20 @@
 <template>
-	<div class="popup-four-step">
+  <div class="popup-four-step">
     <h2 class="popup-four-step__title">Спасибо</h2>
-    <button type="button" class="-button__link">Закрыть</button>
+    <button type="button" class="-button__link" @click="closePopup">Закрыть</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "FourStepPopup",
-}
+  name: 'FourStepPopup',
+
+  methods: {
+    closePopup() {
+      this.$emit('close:popup');
+    },
+  },
+};
 </script>
 
 <style lang="scss">

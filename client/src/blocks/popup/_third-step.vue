@@ -1,23 +1,40 @@
 <template>
-	<div class="popup-third-step">
+  <div class="popup-third-step">
     <h2 class="popup-third-step__title">Багодарим за оценку!</h2>
-    <p class="popup-third-step__description">Мы будем признательны, если Вы оставите отзыв или предложение по
+    <p class="popup-third-step__description">
+      Мы будем признательны, если Вы оставите отзыв или предложение по
       улучшению работы «Газпромнефть-Корпоративные продажи».</p>
 
     <div class="popup-third-step__box">
-      <textarea class="popup-third-step__answer" placeholder="Ваш ответ..." name="answer" id="" cols="30" rows="10"></textarea>
+      <textarea
+        class="popup-third-step__answer"
+        placeholder="Ваш ответ..."
+        name="answer"
+        id="answer"
+        cols="30"
+        rows="10"
+      ></textarea>
     </div>
     <div class="popup-third-step__interaction">
-      <button type="button" class="-button">Отправить</button>
-      <button type="button" class="-button__link">Закрыть</button>
+      <button type="button" class="-button" @click="nextStep">Отправить</button>
+      <button type="button" class="-button__link" @click="closePopup">Закрыть</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ThirdStepPopup",
-}
+  name: 'ThirdStepPopup',
+
+  methods: {
+    nextStep() {
+      this.$emit('next:step', 4);
+    },
+    closePopup() {
+      this.$emit('close:popup');
+    },
+  },
+};
 </script>
 
 <style lang="scss">

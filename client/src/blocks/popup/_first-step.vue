@@ -1,8 +1,14 @@
 <template>
-	<div class="popup-first-step">
+  <div class="popup-first-step">
     <h2 class="popup-first-step__title">Нам важно Ваше мнение!</h2>
-    <p class="popup-first-step__question">Оцените пожалуйста Вашу готовность рекомендовать «Газпромнефть-Корпоративные продажи» своим коллегам / партнерам?</p>
-    <p class="popup-first-step__description">Для оценки используйте 10-балльную шкалу, где 10 – точно готовы рекомендовать, 1 – точно не готовы рекомендовать.</p>
+    <p class="popup-first-step__question">
+      Оцените пожалуйста Вашу готовность рекомендовать «Газпромнефть-Корпоративные
+      продажи» своим коллегам / партнерам?
+    </p>
+    <p class="popup-first-step__description">
+      Для оценки используйте 10-балльную шкалу, где 10 – точно готовы рекомендовать,
+      1 – точно не готовы рекомендовать.
+    </p>
     <div class="popup-first-step__box">
       <div class="popup-first-step__scale" :style="{ width: procent + '%'}"></div>
       <div class="popup-first-step__rating">
@@ -10,43 +16,50 @@
           <input
             type="radio"
             name="rating"
+            :key="key"
             :id="`rating${key}`"
-            :checked="item === count"
+            :checked="item === 1"
             @change="changeRating(item, key)"
           >
-          <label :for="`rating${key}`"><span>{{ count - key }}</span></label>
+          <label :for="`rating${key}`" :key="key"><span>{{ count - key }}</span></label>
         </template>
 
       </div>
     </div>
     <div class="popup-first-step__interaction">
-      <button type="button" class="-button">Отправить</button>
-      <button type="button" class="-button__link">Больше не спрашивать</button>
+      <button type="button" class="-button" @click="nextStep">Отправить</button>
+      <button type="button" class="-button__link" @click="closePopup">Больше не спрашивать</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "FirstStepPopup",
+  name: 'FirstStepPopup',
 
   data() {
     return {
-      procent: 1,
+      procent: 100,
       count: 10,
-      point: 1,
+      point: 10,
     };
   },
 
   methods: {
     changeRating(item, key) {
-      let length = 100 / (this.count - 1);
-      let num = this.count - item;
+      const length = 100 / (this.count - 1);
+      const num = this.count - item;
       this.procent = num * length;
       this.point = this.count - key;
     },
+    nextStep() {
+      this.$emit('next:step', this.count === this.point ? 3 : 2);
+    },
+    closePopup() {
+      this.$emit('close:popup');
+    },
   },
-}
+};
 </script>
 
 <style lang="scss">

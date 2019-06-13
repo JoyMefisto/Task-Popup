@@ -2,10 +2,10 @@
   <div class="popup" v-if="isShow">
     <div class="popup__shadow"></div>
     <div class="popup__block">
-      <first-step />
-      <second-step />
-      <third-step />
-      <four-step />
+      <first-step v-if="step === 1" @next:step="nextStep" @close:popup="closePopup" />
+      <second-step v-if="step === 2" @next:step="nextStep" @close:popup="closePopup" />
+      <third-step v-if="step === 3" @next:step="nextStep" @close:popup="closePopup" />
+      <four-step v-if="step === 4" @close:popup="closePopup" />
     </div>
   </div>
 </template>
@@ -19,6 +19,12 @@ import FourStep from './_four-step.vue';
 export default {
   name: 'Popup',
 
+  data() {
+    return {
+      step: 1,
+    };
+  },
+
   components: {
     FirstStep,
     SecondStep,
@@ -30,6 +36,15 @@ export default {
     isShow: {
       type: Boolean,
       default: false,
+    },
+  },
+
+  methods: {
+    nextStep(step) {
+      this.step = step;
+    },
+    closePopup() {
+      this.$emit('close:popup');
     },
   },
 };

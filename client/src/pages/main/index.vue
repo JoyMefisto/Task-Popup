@@ -1,8 +1,12 @@
 <template>
   <default-layout>
     <div class="main">
-      <notification @show:popup="showPopup"/>
-      <popup :isShow="isShowPopup" />
+      <notification
+        v-if="isShowNotification"
+        @show:popup="showPopup"
+        @close:notification="closeNotification"
+      />
+      <popup :isShow="isShowPopup" @close:popup="closePopup" />
     </div>
   </default-layout>
 </template>
@@ -17,7 +21,8 @@ export default {
 
   data() {
     return {
-      isShowPopup: true,
+      isShowPopup: false,
+      isShowNotification: true,
     };
   },
 
@@ -30,6 +35,12 @@ export default {
   methods: {
     showPopup() {
       this.isShowPopup = true;
+    },
+    closeNotification() {
+      this.isShowNotification = false;
+    },
+    closePopup() {
+      this.isShowPopup = false;
     },
   },
 };

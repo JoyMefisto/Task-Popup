@@ -1,5 +1,5 @@
 <template>
-	<div class="popup-second-step">
+  <div class="popup-second-step">
     <h2 class="popup-second-step__title">Почему Вы не поставили оценку 10?</h2>
     <p class="popup-second-step__description">Выберите не более 3-х ключевых причин.</p>
 
@@ -96,16 +96,25 @@
 
     </div>
     <div class="popup-second-step__interaction">
-      <button type="button" class="-button">Отправить</button>
-      <button type="button" class="-button__link">Закрыть</button>
+      <button type="button" class="-button" @click="nextStep">Отправить</button>
+      <button type="button" class="-button__link" @click="closePopup">Закрыть</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "SecondStepPopup",
-}
+  name: 'SecondStepPopup',
+
+  methods: {
+    nextStep() {
+      this.$emit('next:step', 3);
+    },
+    closePopup() {
+      this.$emit('close:popup');
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -131,7 +140,7 @@ export default {
   &__box {
     width: 664px;
     position: relative;
-    margin: 24px auto 48px;
+    margin: 24px 0 48px;
 
     & input[type="checkbox"] {
       display: none;

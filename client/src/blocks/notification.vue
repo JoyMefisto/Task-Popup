@@ -1,5 +1,5 @@
 <template>
-  <div class="notification" v-if="isShowNotification">
+  <div class="notification">
     <p class="notification__block-text">
       <span>Мы хотим стать лучше! Пожалуйста, пройдите опрос и оцените качество сервиса. </span>
       <a href="/" class="notification__text-link" @click="showPopup">Пройти опрос</a>
@@ -12,12 +12,6 @@
 export default {
   name: 'Notification',
 
-  data() {
-    return {
-      isShowNotification: true,
-    };
-  },
-
   methods: {
     showPopup(e) {
       e.preventDefault();
@@ -27,7 +21,7 @@ export default {
     closeNotification(e) {
       e.preventDefault();
 
-      this.isShowNotification = false;
+      this.$emit('close:notification');
     },
   },
 };
