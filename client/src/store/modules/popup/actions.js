@@ -6,24 +6,15 @@ import {
 export default {
   GET_DATA: ({ commit }) => getData()
     .then((response) => {
-      let reasonsClient = [];
-
       commit('SET_DATA_SERVER', response.data.data);
-
-      for(let el in response.data.data.reasons) {
-        reasonsClient.push({ id: el, answer: ''});
-      }
-      commit('SET_DATA_CLIENT', reasonsClient);
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error); // eslint-disable-line no-console
     }),
 
-  SEND_DATA_OF_STEPS: ({ commit }, data) => sendResult(data)
-    .then((response) => {
-      return response.data;
-    })
+  SEND_DATA_OF_STEPS: ({ commit }, data) => sendResult(data) // eslint-disable-line no-unused-vars
+    .then(response => response.data)
     .catch((error) => {
-      console.log(error);
+      console.log(error); // eslint-disable-line no-console
     }),
 };

@@ -6,7 +6,6 @@
     <div class="popup-second-step__box">
       <div
         class="popup-second-step__question"
-        v-if="key !== '10'"
         v-for="(item, key) in reasons"
         :key="key">
         <input type="checkbox" :id="key" @change="checkCheckbox">
@@ -15,18 +14,6 @@
           <span>{{item}}</span>
         </label>
         <input type="text" :id="`answer${key}`" :data-id="key" @input="setValueOfInputs">
-      </div>
-
-      <div
-        class="popup-second-step__question"
-        v-if="reasons['10']"
-      >
-        <input type="checkbox" :id="10" @change="checkCheckbox">
-        <label :for="10">
-          <span class="popup-second-step__checkbox-custom"></span>
-          <span>{{reasons['10']}}</span>
-        </label>
-        <input type="text" id="answer10" :data-id="10" @input="setValueOfInputs">
       </div>
     </div>
 
@@ -69,9 +56,11 @@ export default {
 
   methods: {
     ...mapMutations('popup', {
+      createAnswer: 'CREATE_ANSWER',
       setAnswer: 'SET_ANSWER',
+      deleteAnswer: 'DELETE_ANSWER',
     }),
-    nextStep() {
+    nextStep() { // eslint-disable-line consistent-return
       const isCheckedTen = this.$el.querySelector('input[id="10"]').checked;
 
       if (isCheckedTen) {
@@ -90,15 +79,18 @@ export default {
     setValueOfInputs(e) {
       this.setAnswer({ id: e.target.dataset.id, answer: e.target.value });
     },
-    checkCheckbox(e) {
-      const checked = this.$el.querySelectorAll('input[type*="checkbox"]:checked');
-      const lengthCheckbox = checked.length;
-      const dontChecked = this.$el.querySelectorAll('input[type*="checkbox"]:not(:checked)');
-
-      if (!e.target.checked) { // eslint-disable-line consistent-return
-        this.setAnswer({ id: e.target.id, answer: '' });
+    checkCheckbox(e) { // eslint-disable-line consistent-return
+      if (e.target.checked) {
+        this.createAnswer({ id: e.target.id, answer: '' });
+      } else {
+        this.deleteAnswer({ id: e.target.id });
         this.$el.querySelector(`#answer${e.target.id}`).value = '';
       }
+
+      /* Validation second step */
+      const checked = this.$el.querySelectorAll('.popup-second-step__question input[type="checkbox"]:checked');
+      const lengthCheckbox = checked.length;
+      const dontChecked = this.$el.querySelectorAll('.popup-second-step__question input[type="checkbox"]:not(:checked)');
 
       if (lengthCheckbox === 3) {
         dontChecked.forEach((el) => {
@@ -114,7 +106,7 @@ export default {
         });
       }
 
-      if (lengthCheckbox === 1 || lengthCheckbox <= 3) {
+      if (lengthCheckbox > 0 && lengthCheckbox < 4) {
         this.isDisableNext = false;
         return false;
       }

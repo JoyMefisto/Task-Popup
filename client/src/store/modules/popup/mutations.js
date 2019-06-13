@@ -2,13 +2,22 @@ export default {
   SET_DATA_SERVER: (state, data) => {
     state.rating.server = data;
   },
-  SET_DATA_CLIENT: (state, data) => {
-    state.rating.client.reasons = data;
+  CREATE_ANSWER: (state, payload) => {
+    state.rating.client.reasons.push(payload);
   },
   SET_ANSWER: (state, payload) => {
-    state.rating.client.reasons.some(el => {
-      if(el.id == payload.id) return el.answer = payload.answer;
-    })
+    state.rating.client.reasons.some((el) => { // eslint-disable-line array-callback-return
+      if (el.id == payload.id) el.answer = payload.answer; // eslint-disable-line eqeqeq
+    });
+  },
+  DELETE_ANSWER: (state, payload) => {
+    /* eslint-disable consistent-return */
+    state.rating.client.reasons.some((el, i) => { // eslint-disable-line array-callback-return
+      if (el.id === payload.id) {
+        return state.rating.client.reasons.splice(i, 1);
+      }
+      /* eslint-disable consistent-return */
+    });
   },
   SET_RATE: (state, rate) => {
     state.rating.client.rate = rate;
