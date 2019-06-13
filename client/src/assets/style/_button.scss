@@ -1,0 +1,19 @@
+.-button {
+  background-color: $azure;
+  color: $white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 3px;
+  font-size: 20px;
+  font-family: $font-narrow, Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+.-button__link {
+  background-color: transparent;
+  color: $azure;
+  border: none;
+  font-size: 16px;
+  font-family: $font-narrow, Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}

@@ -34,22 +34,26 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "../assets/style/variables.scss";
+
   .notification {
-    background-color: #60985c;
+    background-color: $highland;
     padding: 6px 94px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     &__block-text {
-      color: #fff;
+      font-family: $font-regular, Arial, Helvetica, sans-serif;
+      color: $white;
+      line-height: 16px;
     }
 
     &__text-link {
-      color: #fff;
+      color: $white;
 
       &:active {
-        color: #fff;
+        color: $white;
       }
     }
 

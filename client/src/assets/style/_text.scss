@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'PT Sans Regular';
+  src: url('./../font/PTSansRegular/PTSansRegular.eot');
+  src: local('☺'), url('./../font/PTSansRegular/PTSansRegular.woff') format('woff'), url('./../font/PTSansRegular/PTSansRegular.ttf') format('truetype'), url('./../font/PTSansRegular/PTSansRegular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PT Sans Italic';
+  src: url('./../font/PTSansItalic/PTSansItalic.eot');
+  src: local('☺'), url('./../font/PTSansItalic/PTSansItalic.woff') format('woff'), url('./../font/PTSansItalic/PTSansItalic.ttf') format('truetype'), url('./../font/PTSansItalic/PTSansItalic.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PT Sans Bold';
+  src: url('./../font/PTSansBold/PTSansBold.eot');
+  src: local('☺'), url('./../font/PTSansBold/PTSansBold.woff') format('woff'), url('./../font/PTSansBold/PTSansBold.ttf') format('truetype'), url('./../font/PTSansBold/PTSansBold.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PT Sans Narrow';
+  src: local('PT Sans Narrow'), local('PTSans-Narrow'), url('./../font/PTSansNarrow/ptsansnarrow.woff2') format('woff2'), url('./../font/PTSansNarrow/ptsansnarrow.woff') format('woff'), url('./../font/PTSansNarrow/ptsansnarrow.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'PT Sans Narrow Bold';
+  src: local('PT Sans Narrow Bold'), local('PTSans-NarrowBold'), url('./../font/PTSansNarrowBold/ptsansnarrowbold.woff2') format('woff2'), url('./../font/PTSansNarrowBold/ptsansnarrowbold.woff') format('woff'), url('./../font/PTSansNarrowBold/ptsansnarrowbold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+* {
+  box-sizing: border-box;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-weight: normal;
+}
+
+html,
+body {
+  color: $black;
+  background-color: $white;
+  font: normal 14px/24px $font-regular, Arial, Helvetica, sans-serif;
+}

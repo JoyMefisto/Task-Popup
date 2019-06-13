@@ -1,13 +1,30 @@
 <template>
-	<div class="popup" v-if="isShow">
+  <div class="popup" v-if="isShow">
     <div class="popup__shadow"></div>
-    <div class="popup__block"></div>
+    <div class="popup__block">
+      <first-step />
+      <second-step />
+      <third-step />
+      <four-step />
+    </div>
   </div>
 </template>
 
 <script>
+import FirstStep from './_first-step.vue';
+import SecondStep from './_second-step.vue';
+import ThirdStep from './_third-step.vue';
+import FourStep from './_four-step.vue';
+
 export default {
   name: 'Popup',
+
+  components: {
+    FirstStep,
+    SecondStep,
+    ThirdStep,
+    FourStep,
+  },
 
   props: {
     isShow: {

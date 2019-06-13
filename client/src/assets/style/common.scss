@@ -1,15 +1,3 @@
-@import 'font';
-
-* {
-  box-sizing: border-box;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-html,
-body {
-  color: #000;
-  background-color: #fff;
-  font: normal 14px/24px 'PTSans-Regular', Arial, Helvetica, sans-serif;
-}
+@import './variables.scss';
+@import './_text.scss';
+@import './_button.scss';

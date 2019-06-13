@@ -23,8 +23,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "../assets/style/common.scss";
-
   main {
     min-height: 100vh;
     padding-bottom: 70px;
